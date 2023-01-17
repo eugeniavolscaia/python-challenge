@@ -68,6 +68,16 @@ with open(csvpath) as csvfile:
     f' Greatest Decrease in Profits: {greatest_decrease_date} (${greatest_decrease})')
 
 print(export)   
+
+# set variable for output file
+output_file = os.path.join("analysis","analysis_result.csv")
+# open the output file
+with open(output_file, "w") as datafile:
+    writer = csv.writer(datafile)
+    # write the result
+    writer.writerow([export])
+
+
     
 
 
