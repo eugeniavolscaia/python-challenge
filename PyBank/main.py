@@ -1,13 +1,6 @@
 import os
 import csv
 
-def average(numbers):
-    length = len(numbers)
-    total = 0.0
-    for number in numbers:
-        total += number
-    return total / length
-
 csvpath = os.path.join('Resources','budget_data.csv')
 with open(csvpath) as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',')
@@ -42,20 +35,23 @@ with open(csvpath) as csvfile:
         differences.append(result)
         i += 1
     
-    # Printing data
-    print("Financial Analysis")
-    print("------------------")    
-    print(f'Total Months: {total_months}')
-    print(f'Total: ${total_amount}')
-    print(f'Average Change:  ${round(average(differences),2)}')
-
+    # Calculating average of Differences
+    total = 0.0
+    for number in differences:
+        total += number
+    average = total/len(differences)
+    
+    # Calculating greatest Increase/Decrease
     greatest_increase = max(differences)
     greatest_decrease = min(differences)
 
     # Difference list is one element shorter with the result shifted up
     differences.insert(0,"0")
 
+    # Creating list with Date and Profit/Loss changes
     csvreader_zip = zip(csvreader_date, differences) 
+
+    # Attributing Date to the greatest Increase/Decrease
     for row in csvreader_zip:
         if greatest_increase in row:
             greatest_increase_date = (row[0])
@@ -63,24 +59,16 @@ with open(csvpath) as csvfile:
         if greatest_decrease in row:
             greatest_decrease_date = (row[0])
 
-    print(f'Greatest Increase in Profits: {greatest_increase_date} (${greatest_increase})')
-    print(f'Greatest Decrease in Profits: {greatest_decrease_date} (${greatest_decrease})')
+    # Printing data
+    new_line = '\n'
+    export = (f' Financial Analysis {new_line } ------------------ {new_line}'    
+    f' Total Months: {total_months} {new_line} Total: ${total_amount} {new_line}'
+    f' Average Change:  ${round(average,2)} {new_line}'
+    f' Greatest Increase in Profits: {greatest_increase_date} (${greatest_increase}) {new_line}'
+    f' Greatest Decrease in Profits: {greatest_decrease_date} (${greatest_decrease})')
 
-   
+print(export)   
     
 
 
    
-
-
-
-
-
-
-
-   
-
-   
-
-
-
